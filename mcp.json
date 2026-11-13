@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "nooks": {
+      "type": "streamable-http",
+      "url": "https://nooks.place/api/mcp-v2"
+    }
+  }
+}

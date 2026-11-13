@@ -1,0 +1,103 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nooks",
+  "version": "1.0.0",
+  "description": "Design a custom brick set with Nooks: real bricks, checked structure, revisions, a manual and a parts list.",
+  "author": {
+    "name": "Nooks",
+    "email": "hello@nooks.place",
+    "url": "https://nooks.place"
+  },
+  "homepage": "https://nooks.place/connect",
+  "repository": "https://github.com/Andre-swe/nooks-codex-chatgpt",
+  "license": "Apache-2.0",
+  "keywords": [
+    "bricks",
+    "mcp",
+    "design",
+    "instructions",
+    "parts"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Nooks",
+        "shortDescription": "Design a custom brick set",
+        "longDescription": "Connect your agent to a Nooks build. Build with real parts, check the structure in software, keep every save as a revision, and export a manual, a parts list and a BrickLink wanted list. You can edit the same build by hand in the browser workbench.",
+        "developerName": "Nooks",
+        "category": "Productivity",
+        "capabilities": [
+          "Read builds",
+          "Save revisions",
+          "Export instructions"
+        ],
+        "websiteURL": "https://nooks.place",
+        "supportURL": "https://nooks.place/connect",
+        "privacyPolicyURL": "https://nooks.place/privacy",
+        "termsOfServiceURL": "https://nooks.place/terms",
+        "defaultPrompt": [
+          "Design a custom brick set from a photo I attach and check the structure.",
+          "Open my latest build, check it and export the instructions."
+        ],
+        "brandColor": "#3153CC",
+        "logo": "./assets/icon.svg",
+        "composerIcon": "./assets/icon.svg"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Build from an idea",
+              "prompt": "Build a small red tower on a 4x4 base, part by part, and check it.",
+              "tools_triggered": "runtime_guide, list_builds, create_build, find_parts, build_program, check_model",
+              "expected_behavior": "Reads the runtime guide, creates one build, places only parts that find_parts returned, and reports the check_model result, including any rule it fails."
+            },
+            {
+              "description": "Build from an attached photo",
+              "prompt": "Design a custom brick set from this photo and check it.",
+              "tools_triggered": "runtime_guide, record_source, find_parts, build_program, check_model",
+              "expected_behavior": "Records the photo and the person's own words with record_source before building, then builds inside that build and reports the check."
+            },
+            {
+              "description": "Open and check an existing build",
+              "prompt": "Open my latest build, check it and tell me what fails.",
+              "tools_triggered": "list_builds, open_build, read_project, check_model",
+              "expected_behavior": "Opens the most recent build, reads its current revision, and reports the rules check_model fails together with the parts each rule names."
+            },
+            {
+              "description": "Export instructions and a parts list",
+              "prompt": "Export the instructions and the parts list for this build.",
+              "tools_triggered": "finalize_model, export_kit",
+              "expected_behavior": "Finalizes the model and returns the manual, the parts list and the BrickLink wanted list, and says what the export does not verify."
+            },
+            {
+              "description": "Render a saved revision",
+              "prompt": "Show me the latest saved version of this build.",
+              "tools_triggered": "view",
+              "expected_behavior": "Returns the saved revision's render with an Exact PNG link and the link that opens the build in the workbench."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Asking for prices or stock. The plugin has no live price or stock data, so it declines to estimate either and points to the seller instead.",
+              "prompt": "How much will these parts cost, and are they in stock?"
+            },
+            {
+              "description": "Asking to publish a build. Sharing is a separate, explicit step, so the agent asks before publishing and does not publish a build the person has not agreed to share.",
+              "prompt": "Share this build publicly for me."
+            },
+            {
+              "description": "Asking to skip the check. The agent does not call a model buildable unless check_model passes, and it says a pass is a software check, not a test of physical buildability.",
+              "prompt": "Just tell me it's buildable, skip the check."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "This plugin does not sell products or process payments. Exports link to a BrickLink wanted list that the person takes to a seller."
+      },
+      "publication": {
+        "release_notes": "Initial release: the Nooks remote MCP server and the nooks-design skill."
+      }
+    }
+  }
+}
