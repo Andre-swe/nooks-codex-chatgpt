@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "nooks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Design a custom brick set with Nooks: real bricks, checked structure, revisions, a manual and a parts list.",
   "author": {
     "name": "Nooks",
@@ -49,13 +49,13 @@
             {
               "description": "Build from an idea",
               "prompt": "Build a small red tower on a 4x4 base, part by part, and check it.",
-              "tools_triggered": "runtime_guide, list_builds, create_build, find_parts, build_program, check_model",
+              "tools_triggered": "runtime_guide, list_builds, create_build, find_parts, read_project, build_program, check_model",
               "expected_behavior": "Reads the runtime guide, creates one build, places only parts that find_parts returned, and reports the check_model result, including any rule it fails."
             },
             {
               "description": "Build from an attached photo",
               "prompt": "Design a custom brick set from this photo and check it.",
-              "tools_triggered": "runtime_guide, record_source, find_parts, build_program, check_model",
+              "tools_triggered": "runtime_guide, record_source, find_parts, read_project, build_program, check_model",
               "expected_behavior": "Records the photo and the person's own words with record_source before building, then builds inside that build and reports the check."
             },
             {
@@ -67,8 +67,8 @@
             {
               "description": "Export instructions and a parts list",
               "prompt": "Export the instructions and the parts list for this build.",
-              "tools_triggered": "finalize_model, export_kit",
-              "expected_behavior": "Finalizes the model and returns the manual, the parts list and the BrickLink wanted list, and says what the export does not verify."
+              "tools_triggered": "read_project, finalize_model, export_kit",
+              "expected_behavior": "Passes the same saved revision to finalize_model and export_kit, then returns the manual, parts list and BrickLink wanted list and reports any incomplete checks or unverified parts."
             },
             {
               "description": "Render a saved revision",

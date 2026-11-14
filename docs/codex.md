@@ -63,7 +63,8 @@ key.
 3. Ask Codex to call `view_image` on `.nooks/revision-1.png`. A relative path
    is fine; the tool does not expand shell variables.
 
-4. Edit with `build_program`, passing the current revision as `baseRevision`.
+4. Read `currentRevision` with `read_project`, then call `build_program` with
+   that value as `baseRevision`, the updated `program` and a short `reason`.
 5. Save the next render as a new file, `revision-2.png`, so the comparison is
    clear.
 

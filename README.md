@@ -69,10 +69,12 @@ The person sees the Nooks card and links. The model reads the text report and
 1. Read the runtime guide (`runtime_guide`) before the first build.
 2. Open or create one build, and keep its id for project calls.
 3. Record the photo or the person's words with `record_source`.
-4. Find real parts with `find_parts`, then build with `build_program`.
+4. Find real parts with `find_parts`. Read `currentRevision` with `read_project`
+   and pass it to `build_program` as `baseRevision`, with the `program` and a
+   short `reason`. Use `null` only if the build has no revisions.
 5. Check with `check_model`. Use `simulate_program` for the two-second gravity
    simulation and `view` for the saved render.
-6. Finalize with `finalize_model` and export with `export_kit`.
+6. Pass the same saved `revision` to `finalize_model` and `export_kit`.
 
 ## Main files
 

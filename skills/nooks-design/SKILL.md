@@ -18,14 +18,16 @@ missing, follow the setup for your client in the README.
    and pass its id as `build` on project calls when the client keeps no session.
 3. If the person gave a photo or a description, call `record_source` with their
    own words and the photo before building.
-4. `find_parts` before naming a part. Build with `build_program`, and name the
-   connector each placement joins.
+4. `find_parts` before naming a part. Read `currentRevision` from `read_project`
+   and pass it as `baseRevision` to `build_program`, along with the `program`
+   and a short `reason`. Use `null` only if the build has no revisions. Name
+   the connector each placement joins.
 5. `check_model` after each build. Read its report before any other output.
    `simulate_program` is the physics check; `view` shows the saved revision.
    Neither replaces `check_model`.
 6. `finalize_model` when the model is right, then `export_kit` for the manual,
-   the parts list and the BrickLink wanted list. Tell the person what the export
-   does not verify.
+   the parts list and the BrickLink wanted list. Pass the same explicit saved
+   `revision` to both calls. Report any incomplete checks or unverified parts.
 
 ## Rules
 
