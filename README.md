@@ -47,12 +47,12 @@ plugin marketplace support; the manifest targets 0.167.2.
 
 ## Connect in ChatGPT
 
-ChatGPT does not install a plugin from this repository. Add a custom MCP
-connector instead:
+The portable package connects directly to the remote MCP server. In a host
+that manages custom MCP apps, connect the app and save it as a private plugin;
+an existing App-backed plugin can carry the same workflow skill.
 
-1. Use ChatGPT on the web. Mobile cannot add a custom connector.
-2. Your workspace must allow custom MCP servers. Full MCP needs a Business,
-   Enterprise or Edu workspace; Pro can connect read/fetch connectors.
+1. Use a host that supports custom MCP setup.
+2. Your account or workspace policy must permit the connection.
 3. Open **Plugins**, then **Add custom MCP server**.
 4. Enter `https://nooks.place/api/mcp-v2` and choose OAuth. If the connector
    cannot connect, enter the 2025-compatible lane
@@ -69,12 +69,21 @@ The person sees the Nooks card and links. The model reads the text report and
 1. Read the runtime guide (`runtime_guide`) before the first build.
 2. Open or create one build, and keep its id for project calls.
 3. Record the photo or the person's words with `record_source`.
-4. Find real parts with `find_parts`. Read `currentRevision` with `read_project`
-   and pass it to `build_program` as `baseRevision`, with the `program` and a
-   short `reason`. Use `null` only if the build has no revisions.
-5. Check with `check_model`. Use `simulate_program` for the two-second gravity
-   simulation and `view` for the saved render.
-6. Pass the same saved `revision` to `finalize_model` and `export_kit`.
+4. Use connector-aware `build_program` or `run_code` for the selected system.
+   Pass `currentRevision` as `baseRevision`; use `null` only for an empty build.
+5. Run `check_model` after saves. Compare saved renders against the actual source
+   and prior candidate, tracking validity, alignment and design quality separately.
+   Refine the largest mismatch and retain the best valid version.
+6. For bricks, complete supported physics/finalization and manual review before
+   exporting the same revision. Brain Flakes uses its own guide and checks;
+   brick instruction/export tools are currently unavailable for that system.
+
+The skill includes a review record, system routes, research context and a copy
+of the Nooks best-practices guide. Refresh the guide from its owning source with:
+
+```bash
+node scripts/sync-nooks-guide.mjs <path-to-Nooks/apps/create/lib/mcp-best-practices.mjs>
+```
 
 ## Main files
 
@@ -107,7 +116,7 @@ Raise `version` in `plugin.json` with every release.
 
 ## What it does not do
 
-- It does not install anything into ChatGPT. ChatGPT uses a custom connector.
+- Packaging does not authenticate the server, deploy it, or publish a directory listing.
 - It does not contain the Nooks service. The hosted service, workbench and server are proprietary; this repository is not an open-source release of them.
 - Software checks do not prove physical buildability, part availability or that a person can assemble it by hand. Nooks does not sell, hold stock for, box or ship kits.
 - It does not contain credentials. Do not put a key or token in a URL, a repository or a chat message.
