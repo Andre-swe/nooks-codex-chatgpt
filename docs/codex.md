@@ -60,13 +60,15 @@ key.
    Invoke-WebRequest "<Exact PNG URL>" -OutFile .nooks/revision-1.png
    ```
 
-3. Ask Codex to call `view_image` on `.nooks/revision-1.png`. A relative path
-   is fine; the tool does not expand shell variables.
+3. If the image block is already model-visible, inspect it directly. Otherwise,
+   where local image tools are supported, call `view_image` on the downloaded
+   PNG using its absolute filesystem path.
 
 4. Read `currentRevision` with `read_project`, then call `build_program` with
    that value as `baseRevision`, the updated `program` and a short `reason`.
-5. Save the next render as a new file, `revision-2.png`, so the comparison is
-   clear.
+5. Compare the original source and both saved revisions from consistent
+   cameras. Use separate files when downloading them, so older evidence stays
+   available. Record the largest mismatch and make a targeted revision.
 
 `render_preview` returns a simplified preview. Use `view` when the appearance
 of the parts matters. Only a saved revision gets an `Exact PNG:` link; a `view`

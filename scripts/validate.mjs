@@ -3,7 +3,7 @@
 // checks over the network (publisher identity, domain verification, the tool
 // scan, the security scan).
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { dirname, extname, join, relative } from "node:path";
+import { dirname, extname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -19,6 +19,10 @@ const requiredFiles = [
   "mcp.json",
   ".agents/plugins/marketplace.json",
   "skills/nooks-design/SKILL.md",
+  "skills/nooks-design/references/best-practices.md",
+  "skills/nooks-design/references/systems.md",
+  "skills/nooks-design/references/review-record.md",
+  "skills/nooks-design/references/research.md",
   "assets/icon.svg",
   "docs/codex.md",
   "docs/chatgpt.md",
@@ -194,8 +198,8 @@ for (const field of ["logo", "composerIcon"]) {
 const testCases = "extensions/com.openai/review/test_cases";
 const positive = get(data.get("plugin.json"), `${testCases}/positive`);
 const negative = get(data.get("plugin.json"), `${testCases}/negative`);
-if (!Array.isArray(positive) || positive.length !== 5) {
-  errors.push("plugin.json: review.test_cases.positive must hold exactly five cases");
+if (!Array.isArray(positive) || positive.length < 5) {
+  errors.push("plugin.json: review.test_cases.positive must hold at least five cases");
 } else {
   positive.forEach((item, index) => {
     for (const field of ["description", "prompt", "tools_triggered", "expected_behavior"]) {
@@ -205,8 +209,8 @@ if (!Array.isArray(positive) || positive.length !== 5) {
     }
   });
 }
-if (!Array.isArray(negative) || negative.length !== 3) {
-  errors.push("plugin.json: review.test_cases.negative must hold exactly three cases");
+if (!Array.isArray(negative) || negative.length < 3) {
+  errors.push("plugin.json: review.test_cases.negative must hold at least three cases");
 } else {
   negative.forEach((item, index) => {
     for (const field of ["description", "prompt"]) {
@@ -256,6 +260,14 @@ if (!["ON_INSTALL", "ON_USE"].includes(authentication)) {
 
 // --- Skill ------------------------------------------------------------------
 const skill = readFileSync(join(root, "skills/nooks-design/SKILL.md"), "utf8");
+for (const file of files.filter(file => rel(file).startsWith('skills/') && extname(file) === '.md')) {
+  for (const [, link] of readFileSync(file, 'utf8').matchAll(/\]\(([^)]+)\)/g)) {
+    if (/^https:\/\//.test(link) || link.startsWith('#')) continue;
+    const target = resolve(dirname(file), link.split('#')[0]);
+    const skillRoot = resolve(root, 'skills') + sep;
+    if (!target.startsWith(skillRoot) || !existsSync(target)) errors.push(`${rel(file)}: missing or uncontained skill reference ${link}`);
+  }
+}
 const frontmatter = /^---\r?\n([\s\S]*?)\r?\n---\r?\n/.exec(skill);
 if (!frontmatter) {
   errors.push("SKILL.md: missing frontmatter");
@@ -307,5 +319,5 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `validate: ok (${files.length} files, ${jsonFiles.length} JSON, 1 skill, 8 review cases, ${credentials} credentials)`,
+  `validate: ok (${files.length} files, ${jsonFiles.length} JSON, 1 skill, ${(positive?.length ?? 0) + (negative?.length ?? 0)} review cases, ${credentials} credentials)`,
 );

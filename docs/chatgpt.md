@@ -1,14 +1,14 @@
 # ChatGPT
 
-ChatGPT does not install a plugin from this repository. It connects to Nooks as
-a custom MCP connector, and the connector can be saved as a plugin in the
-workspace.
+Nooks can be connected as a custom MCP app and saved as a private plugin.
+An existing App-backed plugin can also carry the `nooks-design` workflow skill.
+Keep its connection and identity when adding skills; do not create a second
+connection merely to add guidance.
 
 ## Before you start
 
-- Use ChatGPT on the web. Mobile cannot add a custom connector.
-- The workspace must allow custom MCP servers. Full MCP requires a Business,
-  Enterprise or Edu workspace; Pro can connect read/fetch connectors.
+- Use a host that supports custom MCP connections and the account's permitted
+  plugin setup flow. Available setup controls depend on the host and policy.
 - You need a Nooks account.
 
 ## Add the connector
@@ -30,8 +30,10 @@ For `view` and `render_preview`, the person gets a Nooks card with the build. Th
 card can show the workbench; if it is blank or blocked, the `Full workbench:`
 link in the reply opens the editor in a browser tab.
 
-The model reads the text report and `structuredContent`. It must not claim to
-have seen an image.
+The model reads the report and `structuredContent`. Some host configurations
+also expose images; others render them only for the person. Use the actual
+capabilities of the current connection and never claim to see pixels that were
+not exposed to the model.
 
 ## What the model can use instead of pixels
 
@@ -46,9 +48,10 @@ buildability.
 
 ## Files and images
 
-ChatGPT does not give the model a local file or image tool for this connection.
-Do not rely on it downloading the `Exact PNG:` link. Put the `Exact PNG:` and
-`Full workbench:` links in the reply so the person can open them.
+Do not assume local file or image tools exist. If source and render images are
+model-visible, compare them directly. Otherwise use spatial observations and
+the returned visual review. Missing reference images or unavailable reviews
+remain unverified. Return the exact render or workbench link for the person.
 
 An image-only result can arrive empty. If that happens, use the report, call
 `inspect_build`, and give the person the links.
@@ -76,7 +79,7 @@ select the parts or name the area.
 
 - [ ] `list_builds` returns the build approved in consent.
 - [ ] `view` on a saved revision shows the person a card or player; the model
-      does not claim to have seen pixels.
+      reports only visual evidence it actually received.
 - [ ] The reply contains `Exact PNG:` and `Full workbench:` links.
 - [ ] Selecting a part in the workbench and calling `read_workbench_context`
       returns it.
