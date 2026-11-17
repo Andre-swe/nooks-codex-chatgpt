@@ -1,28 +1,30 @@
 # ChatGPT
 
-Nooks can be connected as a custom MCP app and saved as a private plugin.
-An existing App-backed plugin can also carry the `nooks-design` workflow skill.
-Keep its connection and identity when adding skills; do not create a second
-connection merely to add guidance.
+ChatGPT on the web connects to Nooks as a custom MCP server, signed in with
+your own Nooks account. That connection gives the model the live Nooks tools,
+server instructions and runtime guide. It does not add the `nooks-design`
+workflow skill bundled in this plugin; desktop apps that support plugin
+marketplaces can install the full plugin (see the [README](../README.md)).
+The plugin ZIP is not a one-click install in ChatGPT on the web.
 
 ## Before you start
 
-- Use a host that supports custom MCP connections and the account's permitted
-  plugin setup flow. Available setup controls depend on the host and policy.
-- You need a Nooks account.
+- Custom MCP availability and the exact controls depend on your ChatGPT plan,
+  app and workspace settings. See
+  [OpenAI's guide](https://developers.openai.com/api/docs/guides/custom-mcp-server).
+- You need a Nooks account. Connecting is free.
 
-## Add the connector
+## Add the server
 
-1. Open **Plugins** in ChatGPT web.
-2. Choose **Add custom MCP server**.
-3. Enter `https://nooks.place/api/mcp-v2`. If the connector cannot connect, enter
-   the 2025-compatible lane `https://nooks.place/api/mcp` instead.
-4. Choose OAuth, then complete the Nooks sign-in and consent. Pick the builds
-   the connection may see; allow edit only if the agent should save.
-5. Choose **Create as a plugin**.
-6. In a new chat, select the plugin with `@` and ask it to list your builds.
+1. Open **Plugins** on chatgpt.com, select **+**, then **Add custom MCP server**.
+2. Enter `https://nooks.place/api/mcp-v2`. If it cannot connect, use the
+   2025-compatible lane `https://nooks.place/api/mcp` instead.
+3. Choose **OAuth**, then select **Create as a plugin**.
+4. Sign in to Nooks and approve access. Pick the builds the connection may
+   see; allow edit only if the agent should save.
+5. In a new chat, select Nooks with `@` and ask it to list your builds.
 
-The menu label may differ between workspaces.
+Labels may differ between workspaces.
 
 ## What the person sees
 

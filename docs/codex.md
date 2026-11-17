@@ -11,10 +11,11 @@ Add this repository as a plugin marketplace:
 codex plugin marketplace add Andre-swe/nooks-codex-chatgpt
 ```
 
-Open the Plugins Directory or run `/plugins`, install **Nooks** and start a new
-session. On the first tool call, Codex asks you to sign in to Nooks.
+Open the Plugins Directory or run `/plugins`, install **Nooks** (or run
+`codex plugin add nooks@nooks`) and start a new session. On the first tool call, Codex asks you to sign in to Nooks.
 
-Without the plugin, add the server directly:
+Without the plugin, add the server directly. You get the live tools and runtime
+guide, but not the bundled `nooks-design` skill:
 
 ```bash
 codex mcp add nooks --url https://nooks.place/api/mcp-v2

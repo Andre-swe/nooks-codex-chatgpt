@@ -7,14 +7,26 @@ checked in software, a manual, a parts list and a BrickLink wanted list.
 People edit the same build by hand in the browser workbench while an agent works
 through MCP. Every save creates a new revision, and older revisions stay.
 
-Codex installs the plugin from this repository. ChatGPT uses a custom MCP
-connector added in ChatGPT web; this repository explains that path.
+## Connect the MCP or install the plugin
+
+- **Connect the MCP:** add `https://nooks.place/api/mcp-v2` to your client and
+  sign in with your own Nooks account. Your agent gets the live Nooks tools,
+  server instructions and runtime guide.
+- **Install the full plugin:** adds the `nooks-design` workflow skill and its
+  reference-comparison guidance on top of the same connection, in clients that
+  install plugins.
+
+Both are free. You approve access on Nooks; nobody shares an account or a key.
 
 ## Status
 
-- This repository is public and installable from source. It is not in the public plugin directory; this repository is the install path.
-- Codex OAuth sign-in has been tested with the Codex CLI. A model-driven tool call is not recorded.
-- Nooks supports a custom connector in ChatGPT. No end-to-end ChatGPT session is recorded.
+- Public and installable from this repository. Nooks has not been submitted to,
+  or listed in, a public plugin directory.
+- A private ChatGPT plugin link does not give other accounts access; each person
+  connects with their own Nooks account.
+- [Download the plugin ZIP (v1.0.2)](https://github.com/Andre-swe/nooks-codex-chatgpt/releases/download/v1.0.2/nooks-1.0.2.zip)
+  for clients that install plugin packages. It is not a one-click install in
+  ChatGPT on the web.
 
 ## What you can do
 
@@ -31,10 +43,13 @@ Add this repository as a plugin marketplace:
 codex plugin marketplace add Andre-swe/nooks-codex-chatgpt
 ```
 
-Then install **Nooks** from the Plugins Directory (or `/plugins`) and start a
-new session. Complete the Nooks OAuth sign-in when Codex asks for it.
+Then install **Nooks** from the Plugins Directory (or `/plugins`), or run
+`codex plugin add nooks@nooks`, and start a new session. Complete the Nooks
+OAuth sign-in when Codex asks for it. Other desktop apps that support plugin
+marketplaces can add the same repository and install Nooks from their Plugins
+directory.
 
-Manual fallback, without the plugin:
+MCP only, without the plugin's workflow skill:
 
 ```bash
 codex mcp add nooks --url https://nooks.place/api/mcp-v2
@@ -47,18 +62,18 @@ plugin marketplace support; the manifest targets 0.167.2.
 
 ## Connect in ChatGPT
 
-The portable package connects directly to the remote MCP server. In a host
-that manages custom MCP apps, connect the app and save it as a private plugin;
-an existing App-backed plugin can carry the same workflow skill.
+ChatGPT on the web connects to Nooks as a custom MCP server. Availability and
+the exact controls depend on your ChatGPT plan, app and workspace settings; see
+[OpenAI's guide](https://developers.openai.com/api/docs/guides/custom-mcp-server).
 
-1. Use a host that supports custom MCP setup.
-2. Your account or workspace policy must permit the connection.
-3. Open **Plugins**, then **Add custom MCP server**.
-4. Enter `https://nooks.place/api/mcp-v2` and choose OAuth. If the connector
-   cannot connect, enter the 2025-compatible lane
-   `https://nooks.place/api/mcp` instead.
-5. Complete the Nooks sign-in and consent, then choose **Create as a plugin**.
-   In a new chat, select it with `@`.
+1. Open **Plugins** on chatgpt.com, select **+**, then **Add custom MCP server**.
+2. Enter `https://nooks.place/api/mcp-v2` and choose **OAuth**. If it cannot
+   connect, use the 2025-compatible lane `https://nooks.place/api/mcp`.
+3. Select **Create as a plugin**, then sign in to Nooks and approve access.
+4. In a new chat, select Nooks with `@`.
+
+This connects the tools, server instructions and runtime guide. It does not
+add the bundled `nooks-design` skill.
 
 The person sees the Nooks card and links. The model reads the text report and
 `structuredContent`; do not assume it can see an image. See
